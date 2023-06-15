@@ -1,12 +1,12 @@
 <script lang="ts">
     import triplets from "./triplets";
 
-    let numberInput: number = 0;
+    let numberInput: bigint = BigInt(0);
     let numberInputRaw: string = "";
 
     $: spokenNumberOutput = numberToWords(numberInput);
 
-    const numberToWords = (num: number): string => {
+    const numberToWords = (bigNum: bigint): string => {
         const units: string[] = [
             "",
             "one",
@@ -44,30 +44,34 @@
             "nineteen",
         ];
 
-        if (num === 0) {
+        if (bigNum === BigInt(0)) {
             return "zero";
         }
 
         const parts: string[] = [];
 
+        const limit = BigInt(1000) ** BigInt(triplets.length);
+
         // Checking if the number is too large
-        if (num >= Math.pow(1000, triplets.length)) {
+        if (bigNum >= limit) {
             return "Woah! that number is too large!";
         }
 
         // Handle triplets
         for (let i = triplets.length; i > 0; i--) {
-            const scale = Math.pow(1000, i);
+            const scale = BigInt(1000) ** BigInt(i);
 
-            if (num >= scale) {
-                const current = Math.floor(num / scale);
-                num %= scale;
+            if (bigNum >= scale) {
+                const current = bigNum / scale;
+                bigNum %= scale;
 
                 let words = `${numberToWords(current)} ${triplets[i]}`;
 
                 parts.push(words);
             }
         }
+
+        let num = Number(bigNum);
 
         // Handle hundreds place
         if (num >= 100) {
@@ -106,7 +110,7 @@
         let enteredDistance = event.target.value || "0";
 
         if (enteredDistance.match(/^\d+$/)) {
-            numberInput = parseInt(enteredDistance);
+            numberInput = BigInt(enteredDistance);
             return;
         }
 
@@ -115,7 +119,12 @@
 </script>
 
 <main class="m-auto w-5/6 text-center">
-    <h1 class="text-5xl mb-8">How do I say that number?</h1>
+    <div class="mb-10">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl md:mb-2.5 mb-1">
+            How do I say that number?
+        </h1>
+        <h1 class="text-zinc-600">Type any number in the box below.</h1>
+    </div>
     <div>
         <input
             type="text"

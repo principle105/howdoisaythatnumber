@@ -57,8 +57,10 @@
             return "Woah! that number is too large!";
         }
 
+        const largestScale = Math.floor(bigNum.toString().length / 3);
+
         // Handle triplets
-        for (let i = triplets.length; i > 0; i--) {
+        for (let i = largestScale; i > 0; i--) {
             const scale = BigInt(1000) ** BigInt(i);
 
             if (bigNum >= scale) {

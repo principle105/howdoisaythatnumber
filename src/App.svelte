@@ -122,10 +122,10 @@
 
 <main class="m-auto w-5/6 text-center">
     <div class="mb-10">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl md:mb-2.5 mb-1">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl md:mb-3 mb-1 font-bold">
             How do I say that number?
         </h1>
-        <h1 class="text-zinc-600">Type any number in the box below.</h1>
+        <h1 class="text-zinc-600 text-lg">Type any number in the box below.</h1>
     </div>
     <div>
         <input
@@ -134,7 +134,7 @@
             bind:value={numberInputRaw}
             on:input={handleNumberInput}
         />
-        <div class="mt-4">{spokenNumberOutput}</div>
+        <div class="mt-4 mb-8">{spokenNumberOutput}</div>
     </div>
 </main>
 
